@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LayerLover | Made-to-Order Chocolate Cakes & Sweets</title>
+<meta name="description" content="Made-to-order chocolate cakes, cupcakes, donuts, cookies and chocolates for birthdays, weddings and special occasions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Poppins:wght@300;400;500;600&family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Yellowtail&display=swap" rel="stylesheet">
+
+<style>
+/* =====================================================================
+   1. TOKENS  (colours + fonts taken from the design's style guide)
+   ===================================================================== */
+:root{
+  --choc:#3B1F1F;          /* dark chocolate */
+  --cream:#F5E9D6;         /* cream */
+  --paper:#F4F4F4;         /* off-white */
+  --white:#ffffff;
+  --black:#000000;
+  --muted:#6f5a52;
+  --line:#3B1F1F;
+
+  --serif:"STIX Two Text","Iowan Old Style",Georgia,serif;
+  --sans:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --script:"Yellowtail","Brush Script MT",cursive;
+  --logo:"Lilita One","Arial Rounded MT Bold",system-ui,sans-serif;
+
+  --wrap:1180px;
+  --r-pill:999px;
+}
+
+/* =====================================================================
+   2. BASE
+   ===================================================================== */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;font-family:var(--sans);color:var(--choc);background:var(--white);line-height:1.6;-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:600;line-height:1.2;margin:0}
+p{margin:0}
+ul{list-style:none;margin:0;padding:0}
+:focus-visible{outline:2px solid var(--choc);outline-offset:3px;border-radius:4px}
+.wrap{width:min(var(--wrap),92%);margin-inline:auto}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.ico{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:.55rem;font-size:.7rem;font-weight:500;padding:.8rem 1.5rem;border-radius:6px;border:1px solid var(--choc);transition:transform .2s,background .2s,color .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-dark{background:var(--choc);color:#fff}
+.btn-dark:hover{background:#2a1414}
+.btn-line{background:transparent;color:var(--choc)}
+.btn-line:hover{background:var(--choc);color:#fff}
+.btn-pill{border-radius:var(--r-pill)}
+.btn .ico{font-size:.85rem}
+
+/* torn-paper edge (generated in JS) */
+.torn{position:absolute;left:0;right:0;top:-1px;height:44px;pointer-events:none;z-index:2}
+.torn svg{width:100%;height:100%}
+.torn path{fill:var(--tornfill,#fff)}
+.has-torn{position:relative}
+
+/* image slots: drop a real photo in with data-img="images/x.jpg" */
+[data-img]{background-size:cover;background-position:center}
+.has-img > svg,.has-img > .fallback{display:none}
+
+/* =====================================================================
+   3. HEADER / NAV
+   ===================================================================== */
+.site-header{position:sticky;top:0;z-index:50;background:rgba(250,241,226,.86);backdrop-filter:blur(10px);transition:box-shadow .3s}
+.site-header.scrolled{box-shadow:0 6px 20px rgba(59,31,31,.09)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:.5rem;font-family:var(--logo);font-size:1.2rem;letter-spacing:.2px}
+.brand svg{width:30px;height:30px}
+.nav-links{display:flex;gap:2.2rem}
+.nav-links a{font-size:.6rem;font-weight:500;letter-spacing:.9px;text-transform:uppercase;padding:.35rem 0;border-bottom:1px solid transparent;transition:border-color .2s}
+.nav-links a:hover,.nav-links a.active{border-color:var(--choc)}
+.nav-tools{display:flex;align-items:center;gap:1rem;font-size:1rem}
+.nav-tools a,.nav-tools button{position:relative;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;transition:background .2s}
+.nav-tools a:hover,.nav-tools button:hover{background:rgba(59,31,31,.09)}
+.cart-count{position:absolute;top:-4px;right:-6px;min-width:16px;height:16px;padding:0 4px;border-radius:99px;background:var(--choc);color:#fff;font:600 .58rem/16px var(--sans);text-align:center;transform:scale(0);transition:transform .25s}
+.cart-count.on{transform:scale(1)}
+.menu-btn{display:none!important}
+
+/* =====================================================================
+   4. HERO
+   ===================================================================== */
+.hero{position:relative;background:radial-gradient(ellipse at 70% 40%,#fffaf1 0%,#f8eddb 45%,var(--cream) 100%);overflow:hidden;padding:64px 0 96px}
+.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;align-items:center;gap:2rem;min-height:440px}
+.hero h1{font-size:clamp(2.1rem,4.3vw,3.4rem);font-weight:600;max-width:11ch;letter-spacing:-.5px}
+.hero p{font-size:.74rem;max-width:44ch;margin:1.4rem 0 2.6rem;color:#4b3532}
+.hero-btns{display:flex;gap:.9rem;flex-wrap:wrap}
+.hero-art{position:relative;justify-self:center;width:min(460px,100%);aspect-ratio:1/1}
+.hero-art .cup{position:absolute;inset:16% 18% 0;animation:bob 6s ease-in-out infinite;filter:drop-shadow(0 26px 22px rgba(59,31,31,.28))}
+.chunk{position:absolute;width:var(--s,34px);height:var(--s,34px);border-radius:5px;background:linear-gradient(135deg,#6a3d2c,#2c1414);box-shadow:inset 2px 2px 3px rgba(255,255,255,.22);transform:rotate(var(--rot));animation:drift var(--t,7s) ease-in-out infinite;animation-delay:var(--d,0s)}
+.crumb{position:absolute;width:var(--s,7px);height:var(--s,7px);border-radius:50%;background:#4a2a1e;animation:drift var(--t,5s) ease-in-out infinite;animation-delay:var(--d,0s)}
+@keyframes bob{50%{transform:translateY(-12px)}}
+@keyframes drift{50%{transform:translateY(-14px) rotate(calc(var(--rot,0deg) + 12deg))}}
+
+/* =====================================================================
+   5. FEATURE + WHY CHOOSE US
+   ===================================================================== */
+.feature{background:var(--white);padding:88px 0 40px;--tornfill:var(--cream)}
+.feature .wrap{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem 3rem}
+.feature h2{font-size:1.75rem;max-width:16ch}
+.feature .copy p{font-size:.72rem;margin:1rem 0 1.6rem;max-width:44ch;color:#4b3532}
+.feature .more{display:none}
+.feature .more.open{display:block}
+.orbit-box{position:relative;justify-self:center;width:min(390px,100%);aspect-ratio:1/1}
+.orbit-box .ring{position:absolute;inset:6% 6%;border:1.5px dashed var(--choc);border-radius:50%;opacity:.7}
+.orbit-box .center{position:absolute;inset:26%}
+.badge{position:absolute;display:flex;flex-direction:column;align-items:center;gap:.35rem;width:130px;text-align:center}
+.badge i{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--choc);color:#fff;font-size:1rem}
+.badge b{font:600 .62rem var(--sans)}
+.badge span{font-size:.5rem;line-height:1.35;color:#5b4540}
+.badge.b1{top:-2%;left:50%;transform:translateX(-50%)}
+.badge.b2{bottom:3%;left:-6%}
+.badge.b3{bottom:3%;right:-6%}
+.why h3{font-size:.85rem;margin-bottom:1rem}
+.why h4{font-size:1.05rem;max-width:20ch;margin-bottom:.9rem;font-weight:600}
+.why p{font-size:.68rem;max-width:46ch;color:#4b3532}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.stat{background:var(--choc);color:#fff;border-radius:8px;padding:1rem 1.1rem}
+.stat strong{display:block;font:500 1.15rem var(--serif)}
+.stat p{font-size:.5rem;line-height:1.45;margin:.35rem 0 .7rem;opacity:.85}
+.stat a{font-size:.5rem;text-decoration:underline;text-underline-offset:2px}
+
+/* =====================================================================
+   6. PRODUCTS (tabs + carousel)
+   ===================================================================== */
+.products{background:var(--white);padding:56px 0 96px;text-align:center}
+.products h2{font-size:1.7rem}
+.products .sub{font-size:.7rem;color:var(--muted);margin:.5rem 0 1.8rem}
+.tabs{display:flex;justify-content:center;flex-wrap:wrap;gap:.9rem;margin-bottom:2.2rem}
+.tab{min-width:112px;padding:.55rem 1.4rem;border:1px solid var(--choc);border-radius:var(--r-pill);font-size:.68rem;font-weight:500;transition:background .2s,color .2s,transform .2s}
+.tab:hover{transform:translateY(-2px)}
+.tab[aria-selected="true"]{background:var(--choc);color:#fff}
+.carousel{position:relative}
+.track{display:flex;gap:1.2rem;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:6px 2px}
+.track::-webkit-scrollbar{display:none}
+.card{flex:0 0 calc(25% - .9rem);min-width:190px;scroll-snap-align:start;border:1.5px dashed var(--choc);border-radius:12px;padding:1.3rem 1rem 1.2rem;display:flex;flex-direction:column;align-items:center;text-align:center;transition:transform .25s,box-shadow .25s}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 26px rgba(59,31,31,.1)}
+.card .pic{width:120px;height:130px;margin-bottom:.8rem}
+.card h5{font:600 .72rem var(--serif);margin:0 0 .35rem}
+.card p{font-size:.5rem;line-height:1.45;color:var(--muted);min-height:2.9em;margin-bottom:.5rem}
+.card .price{font:600 .72rem var(--sans);margin-bottom:.8rem}
+.card .btn{font-size:.62rem;padding:.55rem 1.7rem;border-radius:6px}
+.arrows{display:flex;justify-content:center;gap:.7rem;margin-top:1.4rem}
+.arrow{display:grid;place-items:center;width:24px;height:24px;border:1px solid var(--choc);border-radius:50%;font-size:.75rem;transition:background .2s,color .2s}
+.arrow:hover{background:var(--choc);color:#fff}
+
+/* =====================================================================
+   7. SELECT YOUR FILLING
+   ===================================================================== */
+.filling{background:var(--cream);padding:96px 0 80px;--tornfill:#fff}
+.filling .wrap{display:grid;grid-template-columns:1.5fr 1fr;gap:2rem;align-items:center}
+.fill-stage{position:relative;justify-self:center;width:min(640px,100%);aspect-ratio:1.05/1}
+.fill-stage>svg.ring{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.fill-stage .ring circle{fill:none;stroke:var(--choc);stroke-width:1.4}
+.fill-cake{position:absolute;left:18%;top:32%;width:52%;transition:opacity .3s;filter:drop-shadow(0 14px 12px rgba(59,31,31,.25))}
+.node{position:absolute;width:0;height:0}
+.node .dot{position:absolute;left:-36px;top:-36px;width:72px;height:72px;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 0 5px rgba(255,255,255,.14),inset 0 -8px 12px rgba(0,0,0,.25);outline:1.5px dashed var(--choc);outline-offset:5px;transition:background .4s}
+.node .txt{position:absolute;width:150px;font-size:.5rem;line-height:1.4;color:#4b3532}
+.node .txt b{display:block;font:600 .6rem var(--serif);color:var(--choc);margin-bottom:.15rem}
+.node.n1{left:47%;top:2%}   .node.n1 .txt{left:-40px;top:-62px}
+.node.n2{left:6%;top:30%}   .node.n2 .txt{left:-40px;top:-52px}
+.node.n3{left:96%;top:41%}  .node.n3 .txt{left:-8px;top:38px;width:170px}
+.node.n4{left:82%;top:88%}  .node.n4 .txt{left:-30px;top:44px;width:160px}
+.node.n5{left:31%;top:96%}  .node.n5 .txt{left:-20px;top:44px}
+.node.n1 .dot{--bg:radial-gradient(circle at 35% 30%,#d9506a 0 12%,transparent 13%),radial-gradient(circle at 65% 65%,#a3202e 0 14%,transparent 15%),radial-gradient(circle at 50% 50%,#7a1f2b,#3a0f16)}
+.node.n2 .dot{--bg:radial-gradient(circle at 50% 50%,var(--sponge2) 0 30%,var(--sponge1) 100%)}
+.node.n3 .dot{--bg:repeating-linear-gradient(0deg,var(--sponge1) 0 9px,#231010 9px 14px)}
+.node.n4 .dot{--bg:linear-gradient(180deg,#f0c98b 0 38%,#c98a3a 38% 62%,#f7e4c4 62%)}
+.node.n5 .dot{--bg:radial-gradient(circle at 30% 30%,#e8d39d 0 6%,transparent 7%),radial-gradient(circle at 70% 60%,#d9bd7a 0 7%,transparent 8%),radial-gradient(circle at 40% 75%,#f0dfb0 0 6%,transparent 7%),#b9884a}
+.fill-panel{text-align:center}
+.fill-panel h2{font:400 2.5rem var(--script);letter-spacing:.5px;line-height:1}
+.fill-panel .hint{font-size:.5rem;color:var(--muted);margin:.4rem 0 1.2rem}
+.opt-col{display:flex;flex-direction:column;align-items:center;gap:.6rem;margin-bottom:.9rem}
+.opt{position:relative;display:flex;align-items:center;justify-content:center;width:150px;min-height:32px;padding:.4rem 1rem .4rem 2.6rem;border-radius:var(--r-pill);background:#fff;font-size:.56rem;font-weight:500;box-shadow:0 3px 8px rgba(59,31,31,.12);transition:background .2s,color .2s,transform .2s}
+.opt.plain{padding-left:1rem}
+.opt:hover{transform:translateY(-2px)}
+.opt i{position:absolute;left:0;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--choc);color:#fff;font-size:.9rem}
+.opt[aria-pressed="true"]{background:var(--choc);color:#fff}
+.opt[aria-pressed="true"] i{background:#fff;color:var(--choc)}
+.opt.gift{width:150px;background:var(--choc);color:#fff}
+.opt.gift[aria-pressed="false"]{background:#fff;color:var(--choc)}
+.opt.gift[aria-pressed="false"] i{background:var(--choc);color:#fff}
+.opt.gift[aria-pressed="true"] i{background:#fff;color:var(--choc)}
+.opt.add{background:var(--choc);color:#fff;width:150px}
+.opt.add i{background:#fff;color:var(--choc)}
+.fill-price{font:500 .6rem var(--sans);color:var(--muted);margin-top:.7rem}
+
+/* =====================================================================
+   8. REVIEWS
+   ===================================================================== */
+.reviews{background:var(--white);padding:84px 0 40px;text-align:center;--tornfill:var(--cream)}
+.reviews h2{font-size:1.15rem;margin-bottom:1.6rem}
+.rev-track{display:flex;gap:1.6rem;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.rev-track::-webkit-scrollbar{display:none}
+.rev{position:relative;flex:0 0 calc(33.333% - 1.1rem);min-width:250px;scroll-snap-align:start;border-radius:14px;overflow:hidden;aspect-ratio:.86/1;background:#e8dcc7;text-align:left}
+.rev .photo{position:absolute;inset:0}
+.rev .photo>svg{width:100%;height:100%}
+.rev .box{position:absolute;left:8px;right:8px;bottom:8px;background:var(--choc);color:#fff;border-radius:8px;padding:.7rem .8rem .6rem}
+.rev .box p{font-size:.5rem;line-height:1.5;margin-bottom:.6rem;opacity:.95}
+.rev .who{display:flex;align-items:center;gap:.5rem;font-size:.55rem;font-weight:500}
+.rev .who .av{width:26px;height:26px;border-radius:50%;background:#e7d3b6;display:grid;place-items:center;overflow:hidden}
+.rev .who .av svg{width:100%;height:100%}
+.stars{margin-left:auto;color:#f2b632;font-size:.62rem;letter-spacing:1px}
+
+/* =====================================================================
+   9. ABOUT
+   ===================================================================== */
+.about{background:var(--white);padding:24px 0 120px}
+.about h2{text-align:center;font-size:1.2rem;text-decoration:underline;text-underline-offset:5px;margin-bottom:1.6rem}
+.about .grid{display:grid;grid-template-columns:1.15fr 1fr;gap:2.5rem;align-items:start}
+.about p{font-size:.72rem;line-height:1.9;text-align:center;max-width:52ch;margin-inline:auto;color:#3d2a28}
+.about .pair{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2.4rem}
+.dash-frame{border:1.5px dashed var(--choc);border-radius:10px;padding:8px}
+.dash-frame .photo{aspect-ratio:1.15/1;border-radius:8px;overflow:hidden}
+.dash-frame .photo svg{width:100%;height:100%}
+.about .shop{border-radius:14px;overflow:hidden;aspect-ratio:1.18/1;box-shadow:0 12px 28px rgba(59,31,31,.16)}
+.about .shop svg{width:100%;height:100%}
+
+/* =====================================================================
+   10. CONTACT
+   ===================================================================== */
+.contact{background:var(--cream);padding:96px 0 76px;--tornfill:#fff}
+.contact .wrap{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.contact h2{font-size:1.6rem}
+.contact .lead{font-size:.68rem;color:var(--muted);margin:.7rem 0 2rem;max-width:36ch}
+.field{display:block;width:100%;font:400 .6rem var(--sans);color:var(--choc);background:transparent;border:1.2px solid var(--choc);border-radius:14px;padding:.8rem 1rem;outline:none;transition:box-shadow .2s}
+.field::placeholder{color:#8b7670}
+.field:focus{box-shadow:0 0 0 3px rgba(59,31,31,.16)}
+textarea.field{min-height:76px;resize:vertical;margin-bottom:1.3rem}
+.mail-row{display:flex;gap:0;margin-bottom:1.6rem;border:1.2px solid var(--choc);border-radius:var(--r-pill);overflow:hidden;max-width:100%}
+.mail-row .field{border:0;border-radius:0;background:transparent;box-shadow:none}
+.mail-row button{background:var(--choc);color:#fff;font:500 .68rem var(--sans);padding:0 1.6rem;transition:background .2s}
+.mail-row button:hover{background:#2a1414}
+.form-note{font-size:.6rem;min-height:1.2em;margin:-.8rem 0 1rem}
+.form-note.err{color:#9d2b2b}.form-note.ok{color:#2c6b3a}
+.info{display:flex;flex-direction:column;gap:.6rem;align-items:flex-start}
+.info li{display:flex;align-items:center;gap:.5rem;min-width:240px;padding:.15rem .9rem .15rem .15rem;border:1.2px solid var(--choc);border-radius:var(--r-pill);font-size:.6rem}
+.info li i{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--choc);color:#fff;font-size:.68rem}
+.chef-pic{justify-self:center;width:min(430px,100%);aspect-ratio:1.13/1;border-radius:22px;overflow:hidden;box-shadow:0 14px 30px rgba(59,31,31,.22)}
+.chef-pic svg{width:100%;height:100%}
+
+/* =====================================================================
+   11. CTA BANNER + FOOTER
+   ===================================================================== */
+.cta{position:relative;text-align:center;color:#fff;padding:96px 0 90px;overflow:hidden;background:#3a1a12}
+.cta::before{content:"";position:absolute;inset:-30px;filter:blur(14px);opacity:.9;
+  background:
+    radial-gradient(circle at 12% 30%,#f7f0e6 0 9%,transparent 10%),
+    radial-gradient(circle at 28% 62%,#f2c33f 0 11%,transparent 12%),
+    radial-gradient(circle at 46% 34%,#f6d970 0 9%,transparent 10%),
+    radial-gradient(circle at 64% 66%,#e4802b 0 12%,transparent 13%),
+    radial-gradient(circle at 82% 38%,#f2c33f 0 10%,transparent 11%),
+    radial-gradient(circle at 94% 70%,#f7f0e6 0 8%,transparent 9%),
+    linear-gradient(180deg,#5a2a20 0 40%,#b42a2a 40% 56%,#f5f0e8 56%)}
+.cta::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.66)}
+.cta .wrap{position:relative;z-index:1}
+.cta h2{font-size:1.7rem;max-width:12ch;margin:0 auto 1rem}
+.cta p{font-size:.55rem;margin-bottom:1.6rem;opacity:.95}
+.cta .btn{background:#fff;color:var(--choc);border-color:#fff;border-radius:4px;font-size:.62rem;font-weight:600;letter-spacing:.8px;padding:.9rem 3rem;text-transform:uppercase}
+.cta .btn:hover{background:var(--cream)}
+.footer{background:var(--cream);padding:64px 0 44px}
+.footer .wrap{display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:2rem}
+.footer .brand{font-size:1.9rem;gap:.7rem}
+.footer .brand svg{width:44px;height:44px}
+.footer .about-text{font-size:.55rem;line-height:1.7;max-width:34ch;margin-top:1.6rem;color:#4b3532}
+.footer h6{font:600 .68rem var(--sans);margin:0 0 .8rem}
+.footer li{font-size:.55rem;color:#5b4540;margin-bottom:.45rem}
+.footer li a:hover{text-decoration:underline}
+.copyright{background:#000;color:#cfc4b8;font-size:.45rem;text-align:center;padding:.5rem 0}
+
+/* =====================================================================
+   12. CART DRAWER + TOAST
+   ===================================================================== */
+.scrim{position:fixed;inset:0;background:rgba(20,8,8,.45);opacity:0;pointer-events:none;transition:opacity .3s;z-index:90}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(360px,92vw);background:var(--cream);z-index:100;transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;box-shadow:-10px 0 30px rgba(0,0,0,.18)}
+.drawer.on{transform:none}
+.drawer header{display:flex;justify-content:space-between;align-items:center;padding:1.1rem 1.3rem;border-bottom:1px solid rgba(59,31,31,.2)}
+.drawer h3{font-size:1.1rem}
+.drawer .close{font-size:1.3rem;width:30px;height:30px;border-radius:50%}
+.drawer .close:hover{background:rgba(59,31,31,.1)}
+.cart-list{flex:1;overflow:auto;padding:1rem 1.3rem}
+.cart-empty{font-size:.72rem;color:var(--muted);text-align:center;margin-top:3rem}
+.line{display:grid;grid-template-columns:1fr auto;gap:.2rem .8rem;padding:.8rem 0;border-bottom:1px dashed rgba(59,31,31,.35)}
+.line b{font:600 .75rem var(--serif)}
+.line small{grid-column:1;font-size:.6rem;color:var(--muted)}
+.line .amt{grid-row:1;grid-column:2;font:500 .72rem var(--sans)}
+.qty{display:flex;align-items:center;gap:.5rem;grid-column:1;margin-top:.3rem}
+.qty button{width:22px;height:22px;border:1px solid var(--choc);border-radius:50%;font-size:.8rem;line-height:1}
+.qty button:hover{background:var(--choc);color:#fff}
+.qty span{font-size:.7rem;min-width:1ch;text-align:center}
+.line .rm{grid-column:2;justify-self:end;font-size:.58rem;text-decoration:underline}
+.drawer footer{padding:1.1rem 1.3rem 1.4rem;border-top:1px solid rgba(59,31,31,.2)}
+.total{display:flex;justify-content:space-between;font:600 .85rem var(--sans);margin-bottom:.9rem}
+.drawer footer .btn{width:100%;justify-content:center;padding:.9rem}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,30px);background:var(--choc);color:#fff;font-size:.68rem;padding:.7rem 1.3rem;border-radius:var(--r-pill);opacity:0;pointer-events:none;transition:.35s;z-index:120}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* =====================================================================
+   13. RESPONSIVE
+   ===================================================================== */
+@media (max-width:980px){
+  .card{flex-basis:calc(33.333% - .8rem)}
+  .rev{flex-basis:calc(50% - .8rem)}
+  .footer .wrap{grid-template-columns:1fr 1fr}
+}
+@media (max-width:820px){
+  .menu-btn{display:grid!important}
+  .nav-links{position:absolute;top:64px;left:0;right:0;flex-direction:column;gap:0;background:#faf1e2;padding:.4rem 4%;max-height:0;overflow:hidden;transition:max-height .35s}
+  .nav-links.open{max-height:320px;box-shadow:0 10px 18px rgba(59,31,31,.1)}
+  .nav-links a{padding:.9rem 0;border-bottom:1px solid rgba(59,31,31,.12)}
+  .hero .wrap,.feature .wrap,.filling .wrap,.about .grid,.contact .wrap{grid-template-columns:1fr}
+  .hero{padding:40px 0 80px}
+  .hero h1{max-width:none}
+  .fill-stage{margin-bottom:3.5rem}
+  .fill-panel{margin-top:1rem}
+  .chef-pic{order:-1}
+}
+@media (max-width:560px){
+  .card{flex-basis:78%}
+  .rev{flex-basis:88%}
+  .stats{grid-template-columns:1fr}
+  .footer .wrap{grid-template-columns:1fr}
+  .fill-stage{transform:scale(.8);transform-origin:top center;margin-bottom:0;height:auto}
+  .node .txt{display:none}
+  .badge{width:104px}
+  .badge span{display:none}
+  .mail-row{flex-direction:column;border-radius:16px}
+  .mail-row button{padding:.8rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================================
+     SVG LIBRARY (icons + illustrations). Reused with <use href="#id">.
+     Colours are driven by CSS variables so one drawing = many flavours.
+     ===================================================================== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- line icons (24px grid) -->
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a2 2 0 0 1-2.06 0L2 7"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="m16 6-4-4-4 4"/><path d="M12 2v13"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></symbol>
+    <symbol id="i-chef" viewBox="0 0 24 24"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.46.32-.84.73-1.04a4 4 0 0 0-2.14-7.59 5 5 0 0 0-9.18 0 4 4 0 0 0-2.14 7.59c.41.2.73.58.73 1.04V20a1 1 0 0 0 1 1Z"/><path d="M6 17h12"/></symbol>
+    <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-cupcake" viewBox="0 0 24 24"><path d="M6 12a6 6 0 0 1 12 0"/><path d="M12 3v3"/><path d="m7 12 1.5 8h7L17 12"/><path d="M10.5 12 11 20M13.5 12 13 20"/></symbol>
+    <symbol id="i-donut" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M6.5 9l1 1M16 7.5l1 1M17 15l-1 1M8 16.5l1 .5"/></symbol>
+    <symbol id="i-cookie" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01M16 15.5v.01M12 12v.01M11 17v.01M7 14v.01"/></symbol>
+    <symbol id="i-choc" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 9h16M4 15h16M12 3v18"/></symbol>
+
+    <!-- CUPCAKE: --frost --frost2 --cake --wrap --wrap2 -->
+    <symbol id="cupcake" viewBox="0 0 120 150">
+      <path d="M22 80h76l-10 60q-28 7-56 0z" fill="var(--wrap,#f3e7d3)"/>
+      <path d="M34 80l4 60M46 80l1 63M58 80v64M70 80l-1 63M82 80l-3 60" stroke="var(--wrap2,#d8c3a5)" stroke-width="3" fill="none"/>
+      <path d="M18 82q42-16 84 0l-4 6H22z" fill="var(--cake,#4a2a1e)"/>
+      <path d="M18 80q-8-20 14-24 28 6 56 0 22 4 14 24-42 12-84 0z" fill="var(--frost,#6b3a2a)"/>
+      <path d="M30 60q-4-18 16-20 14 4 30 0 18 2 14 20-30 8-60 0z" fill="var(--frost,#6b3a2a)"/>
+      <path d="M42 44q-2-14 14-16 14 2 22 16-18 6-36 0z" fill="var(--frost,#6b3a2a)"/>
+      <path d="M52 30q4-20 14-6-2 8-14 6z" fill="var(--frost,#6b3a2a)"/>
+      <path d="M26 72q30 8 66 0M36 54q24 6 48 0M46 40q12 4 26 0" stroke="var(--frost2,#8a5540)" stroke-width="3" stroke-linecap="round" fill="none" opacity=".85"/>
+      <ellipse cx="46" cy="66" rx="10" ry="3" fill="#fff" opacity=".13"/>
+    </symbol>
+
+    <!-- DONUT: --dough --ice --spr -->
+    <symbol id="donut" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="29" fill="none" stroke="var(--dough,#d9a066)" stroke-width="30"/>
+      <circle cx="50" cy="50" r="29" fill="none" stroke="var(--ice,#4a2a1e)" stroke-width="24"/>
+      <circle cx="50" cy="50" r="29" fill="none" stroke="#fff" stroke-opacity=".14" stroke-width="5" transform="translate(-2 -3)"/>
+      <g stroke-width="2.6" stroke-linecap="round" stroke="var(--spr,#fff)"><path d="M22 44l4 2M30 28l3 3M48 20l1 4M68 27l-3 3M78 46l-4 1M74 68l-3-3M52 80l1-4M30 72l3-3M20 58l4-1M60 34l3 1M40 36l2 3M64 62l3 2"/></g>
+    </symbol>
+
+    <!-- COOKIE: --cookie --chip -->
+    <symbol id="cookie" viewBox="0 0 100 100">
+      <circle cx="50" cy="52" r="42" fill="var(--cookie-edge,#a86d34)"/>
+      <circle cx="50" cy="48" r="42" fill="var(--cookie,#c98b4a)"/>
+      <g fill="var(--chip,#3B1F1F)"><ellipse cx="36" cy="34" rx="8" ry="6"/><ellipse cx="62" cy="30" rx="6" ry="5"/><ellipse cx="72" cy="52" rx="8" ry="6"/><ellipse cx="50" cy="56" rx="7" ry="6"/><ellipse cx="30" cy="60" rx="6" ry="5"/><ellipse cx="58" cy="74" rx="7" ry="5"/><ellipse cx="42" cy="78" rx="4" ry="3"/></g>
+      <path d="M20 40q10-22 34-22" stroke="#fff" stroke-opacity=".22" stroke-width="4" fill="none" stroke-linecap="round"/>
+    </symbol>
+
+    <!-- CHOCOLATE BOX / BAR: --choc-a --choc-b -->
+    <symbol id="chocbar" viewBox="0 0 120 130">
+      <path d="M14 26 96 10l14 88-82 18z" fill="var(--choc-b,#2a1414)"/>
+      <g fill="var(--choc-a,#5a3325)"><path d="M20 30l30-6 4 24-30 6z"/><path d="M56 23l30-6 4 24-30 6z"/><path d="M26 66l30-6 4 24-30 6z"/><path d="M62 59l30-6 4 24-30 6z"/></g>
+      <path d="M14 26 96 10l1 8L16 34z" fill="#fff" opacity=".12"/>
+      <path d="M92 20l18 84-12 2-16-88z" fill="#e8d8c0"/>
+    </symbol>
+
+    <!-- GIFT BOX: --gift --ribbon -->
+    <symbol id="giftbox" viewBox="0 0 120 130">
+      <rect x="16" y="52" width="88" height="66" rx="6" fill="var(--gift,#5a3325)"/>
+      <rect x="10" y="38" width="100" height="24" rx="6" fill="var(--gift2,#6b3a2a)"/>
+      <rect x="54" y="38" width="12" height="80" fill="var(--ribbon,#f5e9d6)"/>
+      <path d="M60 38C40 14 22 24 34 34c8 6 26 4 26 4s18 2 26-4c12-10-6-20-26 4z" fill="var(--ribbon,#f5e9d6)"/>
+      <circle cx="60" cy="38" r="6" fill="var(--ribbon,#f5e9d6)" stroke="#d8c3a5" stroke-width="1.5"/>
+    </symbol>
+
+    <!-- LAYERED CAKE SLICE: --sponge1 --sponge2 --fill --top --cherry -->
+    <symbol id="cakeslice" viewBox="0 0 240 170">
+      <ellipse cx="120" cy="156" rx="112" ry="10" fill="#000" opacity=".12"/>
+      <clipPath id="wedge"><path d="M6 118 232 40v112q-100 18-226 0z"/></clipPath>
+      <g clip-path="url(#wedge)">
+        <rect x="0" y="30" width="240" height="140" fill="var(--sponge1,#3a1c17)"/>
+        <rect x="0" y="82" width="240" height="14" fill="var(--fill,#f3e2d0)"/>
+        <rect x="0" y="96" width="240" height="18" fill="var(--sponge2,#4a251d)"/>
+        <rect x="0" y="114" width="240" height="14" fill="var(--fill2,#a3202e)"/>
+        <rect x="0" y="128" width="240" height="26" fill="var(--sponge1,#3a1c17)"/>
+        <path d="M0 40l240-10v14L0 60z" fill="#fff" opacity=".07"/>
+      </g>
+      <path d="M6 118 232 40l-4-18-62 10-98 26z" fill="var(--top,#2b1210)"/>
+      <path d="M30 96q14-16 34-8t42-14 40-10 44-16l4 8-160 60z" fill="var(--top,#2b1210)"/>
+      <path d="M60 78q8 22 16 0M110 62q8 26 18 0M160 46q8 24 18 0" stroke="var(--top,#2b1210)" stroke-width="8" stroke-linecap="round" fill="none"/>
+      <g fill="var(--curl,#5a3325)"><rect x="128" y="20" width="18" height="10" rx="3" transform="rotate(-14 128 20)"/><rect x="150" y="14" width="16" height="9" rx="3" transform="rotate(10 150 14)"/><rect x="176" y="22" width="18" height="10" rx="3" transform="rotate(-8 176 22)"/></g>
+      <circle cx="210" cy="30" r="9" fill="var(--cherry,#a3202e)"/><circle cx="207" cy="27" r="2.6" fill="#fff" opacity=".6"/>
+      <path d="M210 22q6-10 12-12" stroke="#3b6b2a" stroke-width="2" fill="none"/>
+    </symbol>
+
+    <!-- LOGO EMBLEM -->
+    <symbol id="emblem" viewBox="0 0 40 40">
+      <circle cx="20" cy="20" r="19" fill="#3B1F1F"/>
+      <g fill="none" stroke="#F5E9D6" stroke-width="2" stroke-linecap="round">
+        <path d="M20 6c9 0 14 6 14 12s-6 9-10 8-5-5-2-7"/>
+        <path d="M20 34c-9 0-14-6-14-12s6-9 10-8 5 5 2 7"/>
+        <path d="M6 20c0-9 6-14 12-14M34 20c0 9-6 14-12 14" opacity=".55"/>
+      </g>
+    </symbol>
+
+    <!-- STOREFRONT PHOTO STAND-IN -->
+    <symbol id="storefront" viewBox="0 0 300 254">
+      <rect width="300" height="254" fill="#d8bd93"/>
+      <rect x="0" y="196" width="300" height="58" fill="#b8926a"/>
+      <path d="M0 196h300" stroke="#a87e56" stroke-width="2"/>
+      <rect x="14" y="14" width="272" height="182" fill="#e2c9a0"/>
+      <rect x="70" y="28" width="160" height="34" rx="6" fill="#6b4630"/>
+      <text x="150" y="52" text-anchor="middle" font-family="Yellowtail,cursive" font-size="24" fill="#f5e9d6">LayerLover</text>
+      <g fill="#3a2a22"><path d="M30 190v-84a26 26 0 0 1 52 0v84z"/><path d="M218 190v-84a26 26 0 0 1 52 0v84z"/></g>
+      <g fill="#f0c98b" opacity=".85"><path d="M36 190v-82a20 20 0 0 1 40 0v82z"/><path d="M224 190v-82a20 20 0 0 1 40 0v82z"/></g>
+      <path d="M56 88v102M244 88v102" stroke="#3a2a22" stroke-width="2"/>
+      <path d="M100 190v-78a22 22 0 0 1 100 0z" fill="none"/>
+      <rect x="112" y="96" width="76" height="94" rx="4" fill="#7a4d32"/><rect x="118" y="102" width="64" height="88" rx="3" fill="#8b5a3c"/>
+      <circle cx="176" cy="150" r="3" fill="#e8c79a"/>
+      <g fill="#c78a4a"><circle cx="44" cy="200" r="9"/><circle cx="256" cy="200" r="9"/></g>
+      <g stroke="#3a2a22" stroke-width="3" fill="none"><path d="M20 232v-26h22v26M20 216h22"/><path d="M264 232v-26h22v26M264 216h22"/></g>
+      <g fill="#a86a3c"><circle cx="100" cy="236" r="16"/><circle cx="204" cy="236" r="16"/></g>
+      <path d="M30 20q30 12 60 0t60 0 60 0 60 0" stroke="#f5e9d6" stroke-width="3" fill="none" opacity=".5"/>
+    </symbol>
+
+    <!-- INTERIOR PHOTO STAND-IN -->
+    <symbol id="interior" viewBox="0 0 200 174">
+      <rect width="200" height="174" fill="#7a4a30"/>
+      <rect width="200" height="80" fill="#8b5a3c"/>
+      <rect x="0" y="120" width="200" height="54" fill="#5d3823"/>
+      <g fill="#c98b4a" opacity=".6"><rect x="20" y="26" width="56" height="4"/><rect x="20" y="52" width="56" height="4"/><rect x="128" y="26" width="52" height="4"/><rect x="128" y="52" width="52" height="4"/></g>
+      <g fill="#f5e9d6" opacity=".8"><rect x="26" y="14" width="10" height="12"/><rect x="46" y="16" width="12" height="10"/><rect x="134" y="14" width="12" height="12"/><rect x="156" y="40" width="14" height="12"/></g>
+      <g stroke="#2a1a12" stroke-width="1.5"><path d="M50 0v22M100 0v34M150 0v18"/></g>
+      <g fill="#ffd98a"><circle cx="50" cy="26" r="8"/><circle cx="100" cy="40" r="10"/><circle cx="150" cy="24" r="8"/></g>
+      <g fill="#ffd98a" opacity=".22"><circle cx="50" cy="26" r="22"/><circle cx="100" cy="40" r="26"/><circle cx="150" cy="24" r="22"/></g>
+      <rect x="0" y="96" width="200" height="28" fill="#e8d8c0"/><rect x="0" y="122" width="200" height="6" fill="#3b1f1f"/>
+      <g fill="#3b1f1f"><circle cx="34" cy="88" r="8"/><rect x="26" y="94" width="16" height="30" rx="4"/><circle cx="150" cy="86" r="8"/><rect x="142" y="92" width="16" height="32" rx="4"/></g>
+      <g fill="#f5e9d6"><ellipse cx="70" cy="150" rx="18" ry="5"/><ellipse cx="130" cy="152" rx="18" ry="5"/></g>
+      <g stroke="#f5e9d6" stroke-width="3"><path d="M70 150v16M130 152v16"/></g>
+    </symbol>
+
+    <!-- CHEF PHOTO STAND-IN -->
+    <symbol id="chef" viewBox="0 0 340 300">
+      <rect width="340" height="300" fill="#5a4630"/>
+      <rect y="0" width="340" height="104" fill="#3e2c1c"/>
+      <rect x="80" y="10" width="180" height="42" rx="8" fill="#2b1d12"/>
+      <text x="170" y="40" text-anchor="middle" font-family="Yellowtail,cursive" font-size="30" fill="#f2d9a8">LayerLover</text>
+      <path d="M0 60q40-24 80 0t80 0 80 0 100 0" stroke="#e7b8c4" stroke-width="10" fill="none" opacity=".8"/>
+      <g fill="#e8b96a" opacity=".55"><rect x="20" y="70" width="60" height="70"/><rect x="260" y="70" width="60" height="70"/></g>
+      <path d="M100 300v-96q0-34 70-34t70 34v96z" fill="#f7f4ee"/>
+      <path d="M170 170v130" stroke="#d9d3c6" stroke-width="2"/><g fill="#d9d3c6"><circle cx="160" cy="200" r="3"/><circle cx="160" cy="230" r="3"/><circle cx="180" cy="200" r="3"/><circle cx="180" cy="230" r="3"/></g>
+      <ellipse cx="170" cy="142" rx="30" ry="34" fill="#e9c4a0"/>
+      <path d="M138 138q2-30 32-30t32 30q-12-14-32-14t-32 14z" fill="#1e1410"/>
+      <path d="M140 108q-10-40 30-34 34-8 32 34z" fill="#fff"/><rect x="138" y="100" width="64" height="14" rx="6" fill="#f0ece4"/>
+      <path d="M140 84q-18-10-6-26 14-14 30-6 8-16 26-6 20 4 18 26-4 12-16 12z" fill="#fff"/>
+      <path d="M156 146q4 3 8 0M176 146q4 3 8 0" stroke="#2b1a12" stroke-width="2" fill="none"/>
+      <path d="M212 190l38-26" stroke="#f7f4ee" stroke-width="18" stroke-linecap="round"/>
+      <path d="M248 160l22-16" stroke="#c98b4a" stroke-width="4" stroke-linecap="round"/>
+      <g><rect x="0" y="238" width="340" height="62" fill="#3e2a1a"/>
+        <g fill="#e7d3b6"><ellipse cx="40" cy="256" rx="22" ry="6"/><ellipse cx="110" cy="260" rx="22" ry="6"/><ellipse cx="230" cy="260" rx="22" ry="6"/><ellipse cx="300" cy="256" rx="22" ry="6"/></g>
+        <g><path d="M28 254a12 12 0 0 1 24 0z" fill="#a3202e"/><path d="M98 258a12 12 0 0 1 24 0z" fill="#3b1f1f"/><path d="M218 258a12 12 0 0 1 24 0z" fill="#f2b632"/><path d="M288 254a12 12 0 0 1 24 0z" fill="#d9506a"/></g>
+      </g>
+    </symbol>
+
+    <!-- avatar -->
+    <symbol id="avatar" viewBox="0 0 40 40"><rect width="40" height="40" fill="var(--bg,#cfe3e0)"/><circle cx="20" cy="16" r="7" fill="var(--skin,#e2b88f)"/><path d="M6 40q0-14 14-14t14 14z" fill="var(--shirt,#2a2a2a)"/><path d="M13 13q1-8 8-7t7 8q-4-4-7-4t-8 3z" fill="var(--hair,#2a1a12)"/></symbol>
+  </defs>
+</svg>
+
+<!-- =====================================================================
+     HEADER
+     ===================================================================== -->
+<header class="site-header" id="top">
+  <div class="wrap nav">
+    <a href="#top" class="brand" aria-label="LayerLover home">
+      <svg><use href="#emblem"/></svg>LayerLover
+    </a>
+
+    <nav aria-label="Main">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#top" class="active" data-spy="top">Home</a></li>
+        <li><a href="#menu" data-spy="menu">Menu</a></li>
+        <li><a href="#contacts" data-spy="contacts">Contacts</a></li>
+        <li><a href="#story" data-spy="story">Our Story</a></li>
+        <li><a href="#shop" data-spy="shop">Shop</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-tools">
+      <a href="tel:+46763784674" aria-label="Call us"><svg class="ico"><use href="#i-phone"/></svg></a>
+      <button id="shareBtn" aria-label="Share this page"><svg class="ico"><use href="#i-share"/></svg></button>
+      <button id="cartBtn" aria-label="Open cart"><svg class="ico"><use href="#i-cart"/></svg><span class="cart-count" id="cartCount">0</span></button>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false"><svg class="ico"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- =====================================================================
+     HERO
+     ===================================================================== -->
+<section class="hero" aria-labelledby="heroTitle">
+  <div class="wrap">
+    <div>
+      <h1 id="heroTitle">Make Every Celebration Truly Unforgettable</h1>
+      <p>Made-to-order chocolate cakes, crafted as the perfect centerpiece for birthdays, weddings, and special occasions.</p>
+      <div class="hero-btns">
+        <a href="#shop" class="btn btn-dark">Order Your Perfect Cake</a>
+        <a href="#menu" class="btn btn-line">View Menu <svg class="ico"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+
+    <!-- To use a real photo: <div class="hero-art" data-img="images/hero-cupcake.png"> -->
+    <div class="hero-art" data-img="">
+      <span class="chunk" style="--rot:20deg;--s:38px;left:8%;top:34%;--d:.2s"></span>
+      <span class="chunk" style="--rot:-14deg;--s:30px;left:26%;top:6%;--d:1s;--t:8s"></span>
+      <span class="chunk" style="--rot:40deg;--s:44px;right:2%;top:30%;--d:.6s;--t:9s"></span>
+      <span class="chunk" style="--rot:-30deg;--s:24px;right:16%;top:6%;--d:1.6s"></span>
+      <span class="chunk" style="--rot:12deg;--s:26px;left:4%;top:12%;--d:2.2s;--t:6s"></span>
+      <span class="crumb" style="left:16%;top:22%;--d:.4s"></span><span class="crumb" style="right:24%;top:18%;--d:1.2s;--s:9px"></span>
+      <span class="crumb" style="left:34%;top:44%;--d:.9s;--s:5px"></span><span class="crumb" style="right:8%;top:48%;--d:1.8s;--s:6px"></span>
+      <svg class="cup" style="--frost:#5a3325;--frost2:#8a5a44;--cake:#3a1c17;--wrap:#f6eee0;--wrap2:#cdb99a"><use href="#cupcake"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     FEATURE + WHY CHOOSE US
+     ===================================================================== -->
+<section class="feature has-torn" id="story-intro" aria-labelledby="featTitle">
+  <div class="torn" data-seed="7"></div>
+  <div class="wrap">
+
+    <div class="copy">
+      <h2 id="featTitle">Chef-Crafted Artisanal Chocolate Dessert</h2>
+      <p>Crafted from the finest Belgian chocolate and fresh, natural ingredients for a treat so smooth it's perfect for gifting or enjoying yourself.</p>
+      <p class="more" id="moreText">Every cake is layered by hand in small batches, from a slow-melted ganache to the last chocolate curl, so what arrives at your table tastes like it was baked minutes ago.</p>
+      <button class="btn btn-dark" id="readMore" aria-expanded="false">Read More <svg class="ico"><use href="#i-arrow"/></svg></button>
+    </div>
+
+    <div class="orbit-box">
+      <div class="ring"></div>
+      <svg class="center" viewBox="0 0 240 200" aria-hidden="true">
+        <circle cx="70" cy="132" r="34" fill="#3B1F1F"/><circle cx="70" cy="132" r="26" fill="#f5e9d6"/><circle cx="70" cy="132" r="20" fill="#7b4a30"/>
+        <path d="M100 116q30 4 20 22" stroke="#3B1F1F" stroke-width="7" fill="none" stroke-linecap="round"/>
+        <g fill="#4a2a1e"><ellipse cx="30" cy="176" rx="6" ry="4" transform="rotate(30 30 176)"/><ellipse cx="46" cy="184" rx="6" ry="4"/><ellipse cx="18" cy="160" rx="5" ry="3.5" transform="rotate(-20 18 160)"/></g>
+        <g style="--sponge1:#3a1c17;--sponge2:#4a251d;--fill:#f3e2d0;--fill2:#a3202e;--top:#2b1210;--curl:#5a3325"><svg x="90" y="30" width="140" height="100" viewBox="0 0 240 170"><use href="#cakeslice"/></svg></g>
+        <circle cx="200" cy="34" r="12" fill="#3B1F1F" opacity=".9"/>
+      </svg>
+
+      <div class="badge b1"><i><svg class="ico"><use href="#i-chef"/></svg></i><b>Baked Fresh Daily</b><span>Every cake is made from scratch each morning</span></div>
+      <div class="badge b2"><i><svg class="ico"><use href="#i-truck"/></svg></i><b>Timely Delivery</b><span>We guarantee your treats arrive safe, fresh and on time</span></div>
+      <div class="badge b3"><i><svg class="ico"><use href="#i-box"/></svg></i><b>Elegantly Packaged</b><span>Every order is gift-wrapped and ready to serve</span></div>
+    </div>
+
+    <div class="why">
+      <h3>Why Choose Us</h3>
+      <h4>Handcrafted Sweets To Satisfy Every Craving</h4>
+      <p>We explore every dimension of chocolate, crafting everything from crunchy cookies and fudgy brownies to artisan truffles using premium cocoa beans and real butter.</p>
+    </div>
+
+    <div class="stats" id="stats">
+      <div class="stat"><strong data-count="70" data-suffix="+">70+</strong><p>A curated variety of sweet treats, from classic cakes to seasonal specials.</p><a href="#menu">View More</a></div>
+      <div class="stat"><strong data-count="100" data-suffix="%">100%</strong><p>We use only quality ingredients, no artificial flavors or preservatives.</p><a href="#menu">View More</a></div>
+      <div class="stat"><strong data-count="2000" data-suffix="k">2000k</strong><p>Bringing joy to happy customers with every celebration we bake for.</p><a href="#reviews">View More</a></div>
+      <div class="stat"><strong>24/7</strong><p>Maximized freshness: order any time and we'll bake it ready for delivery.</p><a href="#contacts">View More</a></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- =====================================================================
+     PRODUCTS  (tabs + carousel, rendered by JS)
+     ===================================================================== -->
+<section class="products" id="menu" aria-labelledby="menuTitle">
+  <div class="wrap">
+    <h2 id="menuTitle">Crafted For Your Indulgence</h2>
+    <p class="sub">From indulgent cakes to artisan chocolates, perfectly crafted for every moment.</p>
+
+    <div class="tabs" role="tablist" aria-label="Product categories" id="tabs"></div>
+
+    <div class="carousel">
+      <div class="track" id="track" tabindex="0" aria-live="polite"></div>
+      <div class="arrows">
+        <button class="arrow" id="prodPrev" aria-label="Previous products"><svg class="ico"><use href="#i-left"/></svg></button>
+        <button class="arrow" id="prodNext" aria-label="Next products"><svg class="ico"><use href="#i-right"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     SELECT YOUR FILLING
+     ===================================================================== -->
+<section class="filling has-torn" id="shop" aria-labelledby="fillTitle">
+  <div class="torn" data-seed="21"></div>
+  <div class="wrap">
+
+    <div class="fill-stage" id="fillStage">
+      <svg class="ring" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><circle cx="50" cy="52" r="44" vector-effect="non-scaling-stroke"/></svg>
+
+      <svg class="fill-cake" id="fillCake" viewBox="0 0 240 170" role="img" aria-label="Layered cake slice"><use href="#cakeslice"/></svg>
+
+      <div class="node n1"><span class="dot"></span><div class="txt"><b id="t1"></b><span id="d1"></span></div></div>
+      <div class="node n2"><span class="dot"></span><div class="txt"><b id="t2"></b><span id="d2"></span></div></div>
+      <div class="node n3"><span class="dot"></span><div class="txt"><b id="t3"></b><span id="d3"></span></div></div>
+      <div class="node n4"><span class="dot"></span><div class="txt"><b id="t4"></b><span id="d4"></span></div></div>
+      <div class="node n5"><span class="dot"></span><div class="txt"><b id="t5"></b><span id="d5"></span></div></div>
+    </div>
+
+    <div class="fill-panel">
+      <h2>Select your filling</h2>
+      <p class="hint">Choose a cake to match your flavor preference</p>
+
+      <div class="opt-col" id="cakeOpts" role="group" aria-label="Cake">
+        <button class="opt plain" data-cake="forest" aria-pressed="false">Black Forest Cake</button>
+        <button class="opt plain" data-cake="caramel" aria-pressed="true">Caramel Cake</button>
+      </div>
+
+      <div class="opt-col">
+        <button class="opt gift" id="giftOpt" aria-pressed="true"><i><svg class="ico"><use href="#i-cupcake"/></svg></i>Ceremonial Gifts</button>
+      </div>
+
+      <div class="opt-col" id="addOpts" role="group" aria-label="Add a treat">
+        <button class="opt" data-add="Cupcakes" aria-pressed="false"><i><svg class="ico"><use href="#i-cupcake"/></svg></i>Cupcakes</button>
+        <button class="opt" data-add="Donuts" aria-pressed="false"><i><svg class="ico"><use href="#i-donut"/></svg></i>Donuts</button>
+        <button class="opt" data-add="Cookies" aria-pressed="false"><i><svg class="ico"><use href="#i-cookie"/></svg></i>Cookies</button>
+        <button class="opt" data-add="Chocolates" aria-pressed="false"><i><svg class="ico"><use href="#i-choc"/></svg></i>Chocolates</button>
+      </div>
+
+      <div class="opt-col"><button class="opt add" id="fillAdd"><i><svg class="ico"><use href="#i-cart"/></svg></i>Add to Cart</button></div>
+      <p class="fill-price" id="fillPrice"></p>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     REVIEWS
+     ===================================================================== -->
+<section class="reviews has-torn" id="reviews" aria-labelledby="revTitle">
+  <div class="torn" data-seed="33"></div>
+  <div class="wrap">
+    <h2 id="revTitle">Sweet Reviews From Our Customers</h2>
+    <div class="rev-track" id="revTrack" tabindex="0"></div>
+    <div class="arrows">
+      <button class="arrow" id="revPrev" aria-label="Previous reviews"><svg class="ico"><use href="#i-left"/></svg></button>
+      <button class="arrow" id="revNext" aria-label="Next reviews"><svg class="ico"><use href="#i-right"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     ABOUT US
+     ===================================================================== -->
+<section class="about" id="story" aria-labelledby="aboutTitle">
+  <div class="wrap">
+    <h2 id="aboutTitle">About Us</h2>
+    <div class="grid">
+      <div>
+        <p>At LayerLover, we believe every slice deserves to be celebrated. From our humble kitchen beginnings, we've grown into a bakery where classic flavors meet modern pastry art. More than baking, we create memories for birthdays, special gifts, and everyday indulgences.</p>
+        <div class="pair">
+          <div class="dash-frame"><div class="photo" data-img=""><svg viewBox="0 0 200 174" preserveAspectRatio="xMidYMid slice"><use href="#interior"/></svg></div></div>
+          <div class="dash-frame"><div class="photo" data-img=""><svg viewBox="0 0 200 174" preserveAspectRatio="xMidYMid slice" style="transform:scaleX(-1)"><use href="#interior"/></svg></div></div>
+        </div>
+      </div>
+      <div class="shop" data-img=""><svg viewBox="0 0 300 254" preserveAspectRatio="xMidYMid slice"><use href="#storefront"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     CONTACT
+     ===================================================================== -->
+<section class="contact has-torn" id="contacts" aria-labelledby="contactTitle">
+  <div class="torn" data-seed="45"></div>
+  <div class="wrap">
+    <div>
+      <h2 id="contactTitle">Get In Touch With Us!</h2>
+      <p class="lead">Whether you have a question or want to place an order, we're here to help.</p>
+
+      <form id="contactForm" novalidate>
+        <label class="sr-only" for="msg">Your message</label>
+        <textarea class="field" id="msg" placeholder="Your message..." required></textarea>
+
+        <div class="mail-row">
+          <label class="sr-only" for="email">Email address</label>
+          <input class="field" id="email" type="email" placeholder="Enter your Email Address..." required>
+          <button type="submit">Send</button>
+        </div>
+        <p class="form-note" id="formNote" role="status"></p>
+      </form>
+
+      <ul class="info">
+        <li><i><svg class="ico"><use href="#i-phone"/></svg></i><a href="tel:+46763784674">+467 (637) 846-74-84</a></li>
+        <li><i><svg class="ico"><use href="#i-mail"/></svg></i><a href="mailto:hello@layerlover.com">hello@layerlover.com</a></li>
+        <li><i><svg class="ico"><use href="#i-pin"/></svg></i>574 New York, USA.</li>
+      </ul>
+    </div>
+
+    <div class="chef-pic" data-img=""><svg viewBox="0 0 340 300" preserveAspectRatio="xMidYMid slice"><use href="#chef"/></svg></div>
+  </div>
+</section>
+
+<!-- =====================================================================
+     CTA BANNER
+     ===================================================================== -->
+<section class="cta" aria-labelledby="ctaTitle">
+  <div class="wrap">
+    <h2 id="ctaTitle">Let's Bake Something Beautiful</h2>
+    <p>Delicious flavors, beautiful designs, and a little sweetness made just for you.</p>
+    <a href="#shop" class="btn">Shop Now</a>
+  </div>
+</section>
+
+</main>
+
+<!-- =====================================================================
+     FOOTER
+     ===================================================================== -->
+<footer class="footer">
+  <div class="wrap">
+    <div>
+      <a href="#top" class="brand"><svg><use href="#emblem"/></svg>LayerLover</a>
+      <p class="about-text">LayerLover cake is a dreamy delight made with rich, moist layers stacked to perfection. Each bite is filled with smooth, creamy frosting that melts in your mouth.</p>
+    </div>
+    <div>
+      <h6>Shop</h6>
+      <ul><li><a href="#top">Home</a></li><li><a href="#story">About Us</a></li><li><a href="#menu">Menu</a></li><li><a href="#reviews">Testimonial</a></li><li><a href="#contacts">Contacts</a></li></ul>
+    </div>
+    <div>
+      <h6>Customer Care</h6>
+      <ul><li><a href="#contacts">Delivery &amp; Pickup</a></li><li><a href="#contacts">Allergen Info</a></li><li><a href="#contacts">FAQ</a></li><li><a href="#contacts">Return Policy</a></li><li><a href="#contacts">Contacts</a></li></ul>
+    </div>
+    <div>
+      <h6>Contact</h6>
+      <ul><li>574 New York, USA.</li><li>+467 (637) 846-74-84</li><li>hello@layerlover.com</li><li>8:00 AM - 8:00 PM</li></ul>
+    </div>
+  </div>
+</footer>
+<div class="copyright">Copyright <span id="year">2026</span> LayerLover. All Rights Reserved</div>
+
+<!-- CART DRAWER -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Shopping cart" aria-hidden="true">
+  <header><h3>Your Cart</h3><button class="close" id="closeCart" aria-label="Close cart">&times;</button></header>
+  <div class="cart-list" id="cartList"></div>
+  <footer>
+    <div class="total"><span>Total</span><span id="cartTotal">$0.00</span></div>
+    <button class="btn btn-dark" id="checkout">Checkout</button>
+  </footer>
+</aside>
+<div class="toast" id="toast" role="status"></div>
+
+
+<script>
+/* =====================================================================
+   A. HELPERS
+   ===================================================================== */
+const $  = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const money = n => '$' + n.toFixed(2);
+const svgUse = (id, style = '') =>
+  `<svg viewBox="0 0 ${id === 'cupcake' ? '120 150' : id === 'chocbar' || id === 'giftbox' ? '120 130' : id === 'cakeslice' ? '240 170' : '100 100'}" style="${style}" aria-hidden="true"><use href="#${id}"/></svg>`;
+
+/* Real photos: any element with data-img="path.jpg" gets it as a background */
+$$('[data-img]').forEach(el => {
+  const src = el.dataset.img.trim();
+  if (src) { el.style.backgroundImage = `url("${src}")`; el.classList.add('has-img'); }
+});
+
+/* =====================================================================
+   B. TORN PAPER EDGES  (seeded so they never change between loads)
+   ===================================================================== */
+$$('.torn').forEach(el => {
+  let seed = +el.dataset.seed || 1;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const W = 1440, H = 44;
+  let x = 0, d = `M0 0 L0 ${10 + rnd() * 16}`;
+  while (x < W) {
+    x = Math.min(W, x + 8 + rnd() * 20);
+    d += ` L${x.toFixed(1)} ${(8 + rnd() * 26).toFixed(1)}`;
+  }
+  d += ` L${W} 0 Z`;
+  el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><path d="${d}"/></svg>`;
+});
+
+/* =====================================================================
+   C. HEADER: mobile menu, scroll shadow, active link, share
+   ===================================================================== */
+const header = $('.site-header'), links = $('#navLinks'), menuBtn = $('#menuBtn');
+menuBtn.addEventListener('click', () => {
+  const open = links.classList.toggle('open');
+  menuBtn.setAttribute('aria-expanded', open);
+});
+links.addEventListener('click', e => { if (e.target.closest('a')) { links.classList.remove('open'); menuBtn.setAttribute('aria-expanded', false); } });
+addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 10), { passive: true });
+
+const spyTargets = { top: '#top', menu: '#menu', contacts: '#contacts', story: '#story', shop: '#shop' };
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    const key = Object.keys(spyTargets).find(k => spyTargets[k] === '#' + en.target.id);
+    $$('.nav-links a').forEach(a => a.classList.toggle('active', a.dataset.spy === key));
+  });
+}, { rootMargin: '-45% 0px -50% 0px' });
+Object.values(spyTargets).forEach(s => { const el = $(s); if (el) spy.observe(el); });
+
+$('#shareBtn').addEventListener('click', async () => {
+  const data = { title: 'LayerLover', text: 'Made-to-order chocolate cakes & sweets', url: location.href };
+  try { navigator.share ? await navigator.share(data) : (await navigator.clipboard.writeText(location.href), toast('Link copied')); }
+  catch { /* user cancelled */ }
+});
+
+/* Read more */
+$('#readMore').addEventListener('click', e => {
+  const t = $('#moreText'), open = t.classList.toggle('open');
+  e.currentTarget.setAttribute('aria-expanded', open);
+  e.currentTarget.firstChild.textContent = open ? 'Read Less ' : 'Read More ';
+});
+
+/* =====================================================================
+   D. STAT COUNTERS (count up once when scrolled into view)
+   ===================================================================== */
+const counterObs = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    counterObs.unobserve(en.target);
+    const el = en.target, end = +el.dataset.count, suf = el.dataset.suffix || '';
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+    const t0 = performance.now(), dur = 1400;
+    (function tick(t) {
+      const p = Math.min(1, (t - t0) / dur), eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(end * eased) + suf;
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  });
+}, { threshold: .6 });
+$$('[data-count]').forEach(el => counterObs.observe(el));
+
+/* =====================================================================
+   E. PRODUCTS: data, tabs, carousel
+   ===================================================================== */
+const PRODUCTS = {
+  Gifts: [
+    { n: 'Birthday Hamper',    d: 'Cake, cupcakes and treats packed in one celebration box.', p: 42, art: 'giftbox',  s: '--gift:#5a3325;--gift2:#6b3a2a;--ribbon:#f5e9d6' },
+    { n: 'Sweet Sampler Box',  d: 'A tasting selection of our best-loved bites.',              p: 28, art: 'giftbox',  s: '--gift:#a3202e;--gift2:#8c1b28;--ribbon:#fff' },
+    { n: 'Wedding Favour Set', d: 'Twelve mini chocolate boxes, ribboned and ready to hand out.', p: 55, art: 'giftbox', s: '--gift:#e7d3b6;--gift2:#d8c3a5;--ribbon:#3B1F1F' },
+    { n: 'Thank-You Box',      d: 'Six cookies and two truffles in a keepsake tin.',           p: 24, art: 'giftbox',  s: '--gift:#3B1F1F;--gift2:#2a1414;--ribbon:#f2b632' }
+  ],
+  Cupcakes: [
+    { n: 'Cocoa Peanut Butter Dream', d: 'Rich cocoa sponge topped with creamy peanut butter frosting.', p: 4.5, art: 'cupcake', s: '--frost:#d8a3a0;--frost2:#efc5c1;--cake:#4a2a1e;--wrap:#f3e7d3;--wrap2:#d8c3a5' },
+    { n: 'Double Chocolate Cake',     d: 'Moist chocolate sponge with silky chocolate ganache.',         p: 4.5, art: 'cupcake', s: '--frost:#4a2a1e;--frost2:#6b3d2c;--cake:#2f1712;--wrap:#f6eee0;--wrap2:#cdb99a' },
+    { n: 'Vanilla Berry Fantasy',     d: 'Fluffy vanilla cake with berry cream and a cherry on top.',    p: 4.8, art: 'cupcake', s: '--frost:#f6d9b0;--frost2:#fff0d6;--cake:#e8c48a;--wrap:#f6eee0;--wrap2:#d8c3a5' },
+    { n: 'Coconut Almond Delight',    d: 'Toasted coconut cake with almond caramel and salted crunch.',  p: 5.0, art: 'cupcake', s: '--frost:#d9a45a;--frost2:#f0c88a;--cake:#4a2a1e;--wrap:#f3e7d3;--wrap2:#d8c3a5' },
+    { n: 'Salted Caramel Swirl',      d: 'Buttery caramel buttercream over vanilla bean sponge.',        p: 4.9, art: 'cupcake', s: '--frost:#c98a3a;--frost2:#e7b061;--cake:#c9a06a;--wrap:#fff;--wrap2:#e3d6c2' },
+    { n: 'Red Velvet Kiss',           d: 'Velvety red sponge with tangy cream cheese frosting.',         p: 4.8, art: 'cupcake', s: '--frost:#fbf3e8;--frost2:#fff;--cake:#a3202e;--wrap:#f3e7d3;--wrap2:#d8c3a5' }
+  ],
+  Donuts: [
+    { n: 'Glazed Chocolate Ring', d: 'Pillowy dough dipped in dark chocolate glaze.',        p: 3.2, art: 'donut', s: '--dough:#d9a066;--ice:#4a2a1e;--spr:#f5e9d6' },
+    { n: 'Strawberry Sprinkle',   d: 'Strawberry glaze finished with rainbow sprinkles.',    p: 3.2, art: 'donut', s: '--dough:#d9a066;--ice:#e88aa3;--spr:#fff' },
+    { n: 'Vanilla Bean Glaze',    d: 'Classic ring with a sweet vanilla bean glaze.',        p: 3.0, art: 'donut', s: '--dough:#d9a066;--ice:#f7e6c4;--spr:#d9a066' },
+    { n: 'Hazelnut Crunch',       d: 'Chocolate hazelnut icing with crushed nut topping.',   p: 3.5, art: 'donut', s: '--dough:#d9a066;--ice:#6b3a2a;--spr:#e7c58a' }
+  ],
+  Cookies: [
+    { n: 'Chocolate Chip Classic', d: 'Golden edges, gooey centre and big chocolate chunks.', p: 2.8, art: 'cookie', s: '--cookie:#c98b4a;--cookie-edge:#a86d34;--chip:#3B1F1F' },
+    { n: 'Double Fudge',          d: 'Deep cocoa dough packed with fudge pieces.',            p: 3.0, art: 'cookie', s: '--cookie:#5a3325;--cookie-edge:#3f2318;--chip:#f5e9d6' },
+    { n: 'Oat & Raisin',          d: 'Chewy oats, plump raisins and a hint of cinnamon.',     p: 2.8, art: 'cookie', s: '--cookie:#d2a468;--cookie-edge:#b58447;--chip:#6b3a2a' },
+    { n: 'Peanut Butter Crunch',  d: 'Salty-sweet peanut butter with a crunchy edge.',        p: 3.0, art: 'cookie', s: '--cookie:#d9a55a;--cookie-edge:#bb8740;--chip:#a3672a' }
+  ],
+  Chocolates: [
+    { n: 'Truffle Box',           d: 'Twelve hand-rolled truffles dusted in cocoa.',          p: 18, art: 'chocbar', s: '--choc-a:#5a3325;--choc-b:#2a1414' },
+    { n: 'Sea Salt Dark Bark',    d: '70% dark chocolate with flaky sea salt.',               p: 9,  art: 'chocbar', s: '--choc-a:#3b1f1f;--choc-b:#1e0e0e' },
+    { n: 'Hazelnut Praline',      d: 'Milk chocolate shells filled with hazelnut praline.',   p: 14, art: 'chocbar', s: '--choc-a:#8a5a44;--choc-b:#5a3325' },
+    { n: 'Caramel Bonbons',       d: 'Silky caramel centres in glossy chocolate.',            p: 15, art: 'chocbar', s: '--choc-a:#a06a3a;--choc-b:#6b3a2a' }
+  ],
+  Cakes: [
+    { n: 'Black Forest Slice',    d: 'Chocolate sponge, cherries and whipped cream.',         p: 6.5, art: 'cakeslice', s: '--sponge1:#3a1c17;--sponge2:#4a251d;--fill:#f3e2d0;--fill2:#a3202e;--top:#2b1210;--curl:#5a3325;--cherry:#a3202e' },
+    { n: 'Velvet Truffle Slice',  d: 'Dark chocolate layers with Belgian ganache.',           p: 6.8, art: 'cakeslice', s: '--sponge1:#2f1712;--sponge2:#3f2018;--fill:#7a4a30;--fill2:#5a3325;--top:#1e0e0e;--curl:#6b3a2a;--cherry:#c98b4a' },
+    { n: 'Caramel Drip Slice',    d: 'Golden sponge with salted caramel and toffee cream.',   p: 6.5, art: 'cakeslice', s: '--sponge1:#b98a4e;--sponge2:#c99a5e;--fill:#f7e4c4;--fill2:#c98a3a;--top:#8a5a2c;--curl:#d9a45a;--cherry:#c98b4a' },
+    { n: 'Berry Chantilly Slice', d: 'Vanilla sponge with berry compote and chantilly.',      p: 6.5, art: 'cakeslice', s: '--sponge1:#f0d9a8;--sponge2:#f5e2b8;--fill:#fff;--fill2:#d9506a;--top:#fbf3e8;--curl:#d9506a;--cherry:#a3202e' }
+  ]
+};
+const tabsEl = $('#tabs'), track = $('#track');
+let activeTab = 'Cupcakes';
+
+function renderTabs() {
+  tabsEl.innerHTML = Object.keys(PRODUCTS).map(t =>
+    `<button class="tab" role="tab" data-tab="${t}" aria-selected="${t === activeTab}">${t}</button>`).join('');
+}
+function renderProducts() {
+  track.innerHTML = PRODUCTS[activeTab].map((p, i) => `
+    <article class="card">
+      <div class="pic" style="${p.s}">${svgUse(p.art)}</div>
+      <h5>${p.n}</h5>
+      <p>${p.d}</p>
+      <div class="price">${money(p.p)}</div>
+      <button class="btn btn-dark" data-add-idx="${i}">Add Cart</button>
+    </article>`).join('');
+  track.scrollTo({ left: 0 });
+}
+tabsEl.addEventListener('click', e => {
+  const b = e.target.closest('.tab'); if (!b) return;
+  activeTab = b.dataset.tab; renderTabs(); renderProducts();
+});
+track.addEventListener('click', e => {
+  const b = e.target.closest('[data-add-idx]'); if (!b) return;
+  const p = PRODUCTS[activeTab][+b.dataset.addIdx];
+  addToCart({ id: p.n, name: p.n, price: p.p, note: activeTab });
+});
+const step = () => (track.querySelector('.card')?.offsetWidth || 220) + 19;
+$('#prodPrev').addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+$('#prodNext').addEventListener('click', () => track.scrollBy({ left:  step(), behavior: 'smooth' }));
+renderTabs(); renderProducts();
+
+/* =====================================================================
+   F. SELECT YOUR FILLING
+   ===================================================================== */
+const CAKES = {
+  forest: {
+    name: 'Black Forest Cake', price: 32,
+    vars: { '--sponge1': '#3a1c17', '--sponge2': '#4a251d', '--fill': '#f3e2d0', '--fill2': '#a3202e', '--top': '#2b1210', '--curl': '#5a3325', '--cherry': '#a3202e' },
+    layers: [
+      ['Mixed Berry Compote',     'A refreshing, airy layer of real pureed berries that delivers a lively fruity kick.'],
+      ['Moist Sponge',            'Soft and fluffy sponge cake, perfectly baked to stay tender and juicy in every bite.'],
+      ['Velvet Chocolate Truffle','Decadent dark chocolate sponge layers combined with smooth Belgian chocolate ganache.'],
+      ['Creamy Caramel',          'Creamy, rich caramel crafted from scratch, adding a delightfully gooey texture.'],
+      ['Crunchy Base',            'A crisp foundation of toasted wafers and nuts to deliver a perfect crunch.']
+    ]
+  },
+  caramel: {
+    name: 'Caramel Cake', price: 30,
+    vars: { '--sponge1': '#b98a4e', '--sponge2': '#c99a5e', '--fill': '#f7e4c4', '--fill2': '#c98a3a', '--top': '#8a5a2c', '--curl': '#d9a45a', '--cherry': '#c98b4a' },
+    layers: [
+      ['Salted Caramel Drizzle',  'Slow-cooked caramel with a pinch of sea salt, poured over each layer.'],
+      ['Golden Sponge',           'Buttery vanilla sponge with a light crumb that stays soft for days.'],
+      ['Toffee Cream',            'Whipped cream folded with toffee for a smooth, mellow sweetness.'],
+      ['Butterscotch Ganache',    'White chocolate melted with brown sugar and butter until silky.'],
+      ['Pecan Crunch',            'Toasted pecans and biscuit crumbs pressed into a buttery base.']
+    ]
+  }
+};
+const ADDONS = { Cupcakes: 6, Donuts: 5, Cookies: 4, Chocolates: 8 };
+const GIFT_PRICE = 4;
+const fill = { cake: 'caramel', gift: true, add: null };
+const stage = $('#fillStage');
+
+function renderFilling() {
+  const c = CAKES[fill.cake];
+  Object.entries(c.vars).forEach(([k, v]) => stage.style.setProperty(k, v));
+  c.layers.forEach(([t, d], i) => { $('#t' + (i + 1)).textContent = t; $('#d' + (i + 1)).textContent = d; });
+  $$('#cakeOpts .opt').forEach(b => b.setAttribute('aria-pressed', b.dataset.cake === fill.cake));
+  $('#giftOpt').setAttribute('aria-pressed', fill.gift);
+  $$('#addOpts .opt').forEach(b => b.setAttribute('aria-pressed', b.dataset.add === fill.add));
+  const total = c.price + (fill.gift ? GIFT_PRICE : 0) + (fill.add ? ADDONS[fill.add] : 0);
+  $('#fillPrice').textContent = 'Your selection: ' + money(total);
+  return total;
+}
+$('#cakeOpts').addEventListener('click', e => { const b = e.target.closest('[data-cake]'); if (!b) return; fill.cake = b.dataset.cake; renderFilling(); });
+$('#giftOpt').addEventListener('click', () => { fill.gift = !fill.gift; renderFilling(); });
+$('#addOpts').addEventListener('click', e => {
+  const b = e.target.closest('[data-add]'); if (!b) return;
+  fill.add = fill.add === b.dataset.add ? null : b.dataset.add; renderFilling();
+});
+$('#fillAdd').addEventListener('click', () => {
+  const total = renderFilling(), c = CAKES[fill.cake];
+  const bits = [fill.gift && 'Ceremonial gift wrap', fill.add && '+ ' + fill.add].filter(Boolean).join(' ');
+  addToCart({ id: 'custom-' + fill.cake + fill.gift + fill.add, name: c.name, price: total, note: bits || 'Custom cake' });
+});
+renderFilling();
+
+/* =====================================================================
+   G. REVIEWS carousel
+   ===================================================================== */
+const REVIEWS = [
+  { n: 'Hellen T.', s: 5, q: 'The cake was absolutely divine. Moist, rich and beautifully decorated, it was the highlight of our celebration. Everyone asked where it came from!', art: 'cake',   av: '--bg:#dfe7ea;--skin:#e9c4a0;--shirt:#f2f2f2;--hair:#2a1a12' },
+  { n: 'John Jay.', s: 3, q: 'The donuts were light, fluffy and full of flavor. They felt like a comforting homemade treat but even better. I will definitely be ordering again.', art: 'donuts', av: '--bg:#1fa9a1;--skin:#c88a5a;--shirt:#2a2a2a;--hair:#141010' },
+  { n: 'Michael Han.', s: 5, q: 'The cupcakes were incredibly soft and flavorful, with just the right balance of sweetness. You could really taste the quality in every bite.', art: 'cups',   av: '--bg:#e7ecef;--skin:#e2b88f;--shirt:#1d2a3a;--hair:#3a2a20' },
+  { n: 'Sofia R.', s: 5, q: 'We ordered a wedding cake and it was the talk of the evening. Delivered on time, packaged perfectly, and every layer was rich without being heavy.', art: 'cake', av: '--bg:#f1dfe2;--skin:#d9a880;--shirt:#a3202e;--hair:#1e1410' },
+  { n: 'David K.', s: 4, q: 'Great cookies, great service. The gift box was beautifully wrapped and my sister loved every single piece inside.', art: 'cups', av: '--bg:#dde6dc;--skin:#e9c4a0;--shirt:#3B1F1F;--hair:#7a5a3a' },
+  { n: 'Amara O.', s: 5, q: 'Best birthday cake we have ever had. The caramel layer is unreal, and the team helped us customise it in minutes.', art: 'donuts', av: '--bg:#efe2c8;--skin:#a86a3c;--shirt:#f5e9d6;--hair:#141010' }
+];
+const revArt = {
+  cake:   `<svg viewBox="0 0 300 350" preserveAspectRatio="xMidYMid slice"><rect width="300" height="350" fill="#efe1c6"/><rect y="220" width="300" height="130" fill="#2c4c8c"/><rect x="24" y="90" width="150" height="130" rx="8" fill="#f2c83a"/><path d="M24 118q20 26 40 0t40 0 40 0 30 0v-8H24z" fill="#3B1F1F"/><circle cx="100" cy="72" r="28" fill="#fff" stroke="#3B1F1F" stroke-width="3"/><text x="100" y="70" text-anchor="middle" font-size="10" font-family="Poppins,sans-serif" fill="#3B1F1F">Happy</text><text x="100" y="82" text-anchor="middle" font-size="9" font-family="Poppins,sans-serif" fill="#3B1F1F">Birthday</text><g fill="#a3202e"><rect x="184" y="100" width="90" height="34" rx="4"/><rect x="176" y="146" width="100" height="26" rx="4" fill="#3B1F1F"/><rect x="190" y="182" width="80" height="26" rx="4" fill="#d9a066"/></g><g fill="#e8e8e8"><circle cx="50" cy="240" r="24"/><circle cx="120" cy="248" r="22"/></g><rect x="150" y="226" width="130" height="32" rx="6" fill="#0d1f4a"/></svg>`,
+  donuts: `<svg viewBox="0 0 300 350" preserveAspectRatio="xMidYMid slice"><rect width="300" height="350" fill="#e8dcc7"/><rect x="10" y="30" width="280" height="230" rx="10" fill="#f6f0e4"/><g><svg x="20" y="40" width="120" height="100" viewBox="0 0 100 100" style="--ice:#4a2a1e;--spr:#f5e9d6;--dough:#d9a066"><use href="#donut"/></svg><svg x="160" y="40" width="120" height="100" viewBox="0 0 100 100" style="--ice:#f2d6a0;--spr:#3B1F1F;--dough:#e0b078"><use href="#donut"/></svg><svg x="20" y="150" width="120" height="100" viewBox="0 0 100 100" style="--ice:#3B1F1F;--spr:#e88aa3;--dough:#d9a066"><use href="#donut"/></svg><svg x="160" y="150" width="120" height="100" viewBox="0 0 100 100" style="--ice:#6b3a2a;--spr:#fff;--dough:#d9a066"><use href="#donut"/></svg></g></svg>`,
+  cups:   `<svg viewBox="0 0 300 350" preserveAspectRatio="xMidYMid slice"><rect width="300" height="350" fill="#ece3d4"/><rect y="230" width="300" height="120" fill="#f8f6f1"/><g><svg x="8" y="60" width="140" height="176" viewBox="0 0 120 150" style="--frost:#b98456;--frost2:#dba878;--cake:#4a2a1e;--wrap:#f3e7d3;--wrap2:#d8c3a5"><use href="#cupcake"/></svg><svg x="150" y="60" width="140" height="176" viewBox="0 0 120 150" style="--frost:#b98456;--frost2:#dba878;--cake:#4a2a1e;--wrap:#f3e7d3;--wrap2:#d8c3a5"><use href="#cupcake"/></svg><svg x="80" y="20" width="140" height="176" viewBox="0 0 120 150" style="--frost:#c99668;--frost2:#e8bb8a;--cake:#4a2a1e;--wrap:#f3e7d3;--wrap2:#d8c3a5"><use href="#cupcake"/></svg></g></svg>`
+};
+const revTrack = $('#revTrack');
+revTrack.innerHTML = REVIEWS.map(r => `
+  <article class="rev">
+    <div class="photo" data-img="">${revArt[r.art]}</div>
+    <div class="box">
+      <p>&ldquo;${r.q}&rdquo;</p>
+      <div class="who">
+        <span class="av"><svg viewBox="0 0 40 40" style="${r.av}"><use href="#avatar"/></svg></span>${r.n}
+        <span class="stars" aria-label="${r.s} out of 5 stars">${'★'.repeat(r.s)}<span style="opacity:.3">${'★'.repeat(5 - r.s)}</span></span>
+      </div>
+    </div>
+  </article>`).join('');
+const revStep = () => (revTrack.querySelector('.rev')?.offsetWidth || 300) + 26;
+$('#revPrev').addEventListener('click', () => revTrack.scrollBy({ left: -revStep(), behavior: 'smooth' }));
+$('#revNext').addEventListener('click', () => revTrack.scrollBy({ left:  revStep(), behavior: 'smooth' }));
+
+/* =====================================================================
+   H. CART (drawer, quantities, persistence)
+   ===================================================================== */
+let cart = [];
+try { cart = JSON.parse(localStorage.getItem('layerlover-cart')) || []; } catch { cart = []; }
+const drawer = $('#drawer'), scrim = $('#scrim');
+
+function saveCart() { try { localStorage.setItem('layerlover-cart', JSON.stringify(cart)); } catch {} }
+function addToCart(item) {
+  const found = cart.find(i => i.id === item.id);
+  found ? found.qty++ : cart.push({ ...item, qty: 1 });
+  saveCart(); renderCart(); toast(`${item.name} added to cart`);
+}
+function renderCart() {
+  const count = cart.reduce((s, i) => s + i.qty, 0);
+  const cc = $('#cartCount'); cc.textContent = count; cc.classList.toggle('on', count > 0);
+  $('#cartList').innerHTML = cart.length ? cart.map((i, idx) => `
+    <div class="line">
+      <b>${i.name}</b><span class="amt">${money(i.price * i.qty)}</span>
+      <small>${i.note || ''}</small>
+      <div class="qty"><button data-dec="${idx}" aria-label="Decrease">&minus;</button><span>${i.qty}</span><button data-inc="${idx}" aria-label="Increase">+</button></div>
+      <button class="rm" data-rm="${idx}">Remove</button>
+    </div>`).join('') : '<p class="cart-empty">Your cart is empty. Add something sweet!</p>';
+  $('#cartTotal').textContent = money(cart.reduce((s, i) => s + i.price * i.qty, 0));
+}
+$('#cartList').addEventListener('click', e => {
+  const t = e.target;
+  if (t.dataset.inc != null) cart[+t.dataset.inc].qty++;
+  else if (t.dataset.dec != null) { const i = cart[+t.dataset.dec]; if (--i.qty <= 0) cart.splice(+t.dataset.dec, 1); }
+  else if (t.dataset.rm != null) cart.splice(+t.dataset.rm, 1);
+  else return;
+  saveCart(); renderCart();
+});
+const openCart  = () => { drawer.classList.add('on'); scrim.classList.add('on'); drawer.setAttribute('aria-hidden', 'false'); };
+const closeCart = () => { drawer.classList.remove('on'); scrim.classList.remove('on'); drawer.setAttribute('aria-hidden', 'true'); };
+$('#cartBtn').addEventListener('click', openCart);
+$('#closeCart').addEventListener('click', closeCart);
+scrim.addEventListener('click', closeCart);
+addEventListener('keydown', e => { if (e.key === 'Escape') closeCart(); });
+$('#checkout').addEventListener('click', () => {
+  if (!cart.length) return toast('Add something to your cart first');
+  cart = []; saveCart(); renderCart(); closeCart(); toast('Order placed. Thank you!');
+});
+renderCart();
+
+/* toast */
+let toastTimer;
+function toast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.classList.add('on');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('on'), 2200);
+}
+
+/* =====================================================================
+   I. CONTACT FORM (validation only, wire up your backend in submit)
+   ===================================================================== */
+$('#contactForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const msg = $('#msg').value.trim(), mail = $('#email').value.trim(), note = $('#formNote');
+  const ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail);
+  note.className = 'form-note';
+  if (!msg)  { note.textContent = 'Please write a short message.'; note.classList.add('err'); $('#msg').focus(); return; }
+  if (!ok)   { note.textContent = 'Enter a valid email address, like name@example.com.'; note.classList.add('err'); $('#email').focus(); return; }
+  /* TODO: fetch('/your-endpoint', { method:'POST', body: JSON.stringify({ msg, mail }) }) */
+  note.textContent = 'Thanks! We will reply to ' + mail + ' shortly.'; note.classList.add('ok');
+  e.target.reset();
+});
+
+/* footer year */
+$('#year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
